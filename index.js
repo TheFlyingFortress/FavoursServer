@@ -1,17 +1,27 @@
 var express = require('express');
+var http = require('http');
 var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var mongo = require('mongodb');
-var monk = require('monk');
-var uri = 'localhost:' + (process.env.PORT || 5000);
-var db = monk(uri);
-console.log('connecting to: ' + uri);
-var userDB = db.get('usercollection');
-console.log('UserDB' + userDB);
-
 
 app.set('port', (process.env.PORT || 5000));
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
+
+
+// var mongo = require('mongodb');
+// var monk = require('monk');
+// var uri = 'localhost:' + (process.env.PORT || 5000);
+// var db = monk(uri);
+// console.log('connecting to: ' + uri);
+// var userDB = db.get('usercollection');
+// console.log('UserDB' + userDB);
+
+//for parsing the req
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -24,70 +34,84 @@ app.post('/users', users.create);
 app.delete('/users/:id', users.removeById);
 app.put('/users/:id', users.update);
 
-io.on('connection', function (socket) {
-  socket.emit('makeConnection', "got the connection");
-  socket.on('postFavour', function (favour) {
-    var obj = JSON.parse(favour);
-    var favourid = obj.favourid;
-    var uid = obj.uid;
-    var favourTitle = obj.favourTitle;
-    var fromWhere = obj.fromWhere;
-    var starting = obj.starting;
-    var ending = obj.ending;
-    var meeting = obj.meeting;
-    var description = obj.description;
-    console.log(favourid);
-    console.log(uid);
-    console.log(favourTitle);
-    console.log(fromWhere);
-    console.log(starting);
-    console.log(ending);
-    console.log(meeting);
-    console.log(description);
-  });
-  socket.on('getFavours', function (uid) {
-    //send back json of active favours
-    console.log("error");
-  });
-  socket.on('acceptFavour', function (postid, uid) {
-    //take favor change the status of the favour to "in-progress"
-    //update user's current active favours
-    console.log("error");
-  });
-  socket.on('cancelFavour', function (postid, uid) {
-    //take favor change the status of the favour to "active"
-    console.log("error");
-  });
-  socket.on('doneFavour', function (postid, uid) {
-    //change the status of the favour to "done" and increase user done count by 1
-    console.log("error");
-  });
-  socket.on('newAcc', function (uid) {
-    //add user to the app's user db
-    console.log("error");
-  });
-  socket.on('login', function (uid) {
-    //check if user is already signed up, if not then call newACC
-    console.log("error");
-  });
-  socket.on('getUser', function (uid) {
-    //send back json of user's info
-    console.log("error");
-  });
-  socket.on('userPraise', function (uid) {
-    //increment user ranking
-    console.log("error");
-  });
-  socket.on('userShame', function (uid) {
-    //decrement user ranking
-    console.log("error");
-  });
-  socket.on('getAcceptedFavours', function (uid) {
-    //see all user's accepted favours
-    console.log("error");
-  });
+app.post('/postFavour', function(req, res) {
+  var param = JSON.stringify(req.body);
+  var favour = JSON.parse(param);
+  var favourid = favour.favourid;
+  var uid = favour.uid;
+  var favourTitle = favour.favourTitle;
+  var fromWhere = favour.fromWhere;
+  var starting = favour.starting;
+  var ending = favour.ending;
+  var meeting = favour.meeting;
+  var description = favour.description;
+  console.log(favourid);
+  console.log(uid);
+  console.log(favourTitle);
+  console.log(fromWhere);
+  console.log(starting);
+  console.log(ending);
+  console.log(meeting);
+  console.log(description);
+  res.send("postFavour sent to server"); 
 });
 
-server.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+app.get('/getFavours', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("getFavours sent to server"); 
+});
+
+app.put('/acceptFavours', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("acceptFavours sent to server"); 
+});
+
+app.put('/cancelFavours', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("cancelFavours sent to server"); 
+});
+
+app.put('/doneFavours', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("doneFavours sent to server"); 
+});
+
+app.post('/newAcc', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("newAcc sent to server"); 
+});
+
+app.get('/login', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("login sent to server"); 
+});
+
+app.get('/getUser', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("getUser sent to server"); 
+});
+
+app.put('/userPraise', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("userPraise sent to server"); 
+});
+
+app.put('/userShame', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("userShame sent to server"); 
+});
+
+app.get('/getAcceptedFavours', function(req, res) {
+  var params = JSON.stringify(req.body);
+  console.log(params);
+  res.send("getAcceptedFavours sent to server"); 
 });
