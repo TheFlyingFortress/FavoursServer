@@ -1,6 +1,9 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var socket = io.connect('http://localhost:5000/');
+
+  // var socket = io.connect('http://localhost:5000/');
+  var socket = io.connect('https://favours.herokuapp.com/');
+  
   socket.on('makeConnection', function (data) {
     console.log(data);
     if (data === "got the req") {
