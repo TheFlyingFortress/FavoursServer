@@ -21,22 +21,24 @@ io.on('connection', function (socket) {
   socket.emit('makeConnection', "got the connection");
   socket.on('postFavour', function (favour) {
     var obj = JSON.parse(favour);
-    var postid = obj.postid;
+    var favourid = obj.favourid;
     var uid = obj.uid;
-    var favour = obj.favour;
+    var favourTitle = obj.favourTitle;
     var fromWhere = obj.fromWhere;
     var starting = obj.starting;
     var ending = obj.ending;
     var meeting = obj.meeting;
-    console.log(postid);
+    var description = obj.description;
+    console.log(favourid);
     console.log(uid);
-    console.log(favour);
+    console.log(favourTitle);
     console.log(fromWhere);
     console.log(starting);
     console.log(ending);
     console.log(meeting);
+    console.log(description);
   });
-  socket.on('getFavours', function () {
+  socket.on('getFavours', function (uid) {
     //send back json of active favours
     console.log("error");
   });
