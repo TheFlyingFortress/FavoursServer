@@ -6,7 +6,7 @@
   
   socket.on('makeConnection', function (data) {
     console.log(data);
-    if (data === "got the req") {
+    if (data === "got the connection") {
       var favour = '{ "postid": "123" , "favour": "get coffee" , "fromWhere": "starbucks" , "starting": "13:30" , "ending": "14:30" , "meeting": "ICICS" }';
       socket.emit('postFavour', favour);
     }

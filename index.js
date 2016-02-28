@@ -36,21 +36,27 @@ io.on('connection', function (socket) {
   });
   socket.on('getFavours', function (latlon) {
     //send back json of active favours
+    console.log("error");
   });
   socket.on('acceptFavour', function (postid) {
     //take favor change the status of the favour to "in-progress"
+    console.log("error");
   });
   socket.on('cancelFavour', function (postid) {
     //take favor change the status of the favour to "active"
+    console.log("error");
   });
   socket.on('doneFavour', function (postid, uid) {
     //change the status of the favour to "done" and increase user done count by 1
+    console.log("error");
   });
   socket.on('newAcc', function (uid) {
     //add user to the app's user db
+    console.log("error");
   });
   socket.on('getUser', function (uid) {
     //send back json of user's info
+    console.log("error");
   });
 });
 
