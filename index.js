@@ -11,16 +11,16 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function (socket) {
-  socket.emit('makeConnection', "got the req");
+  socket.emit('makeConnection', "got the connection");
   socket.on('postFavour', function (favour) {
     var obj = JSON.parse(favour);
-    var uid = obj.uid;
+    var postid = obj.postid;
     var favour = obj.favour;
     var fromWhere = obj.fromWhere;
     var starting = obj.starting;
     var ending = obj.ending;
     var meeting = obj.meeting;
-    console.log(uid);
+    console.log(postid);
     console.log(favour);
     console.log(fromWhere);
     console.log(starting);
@@ -30,10 +30,19 @@ io.on('connection', function (socket) {
   socket.on('getFavours', function (latlon) {
     //send back json of active favours
   });
-  socket.on('newAcc', function (userFB) {
+  socket.on('acceptFavour', function (postid) {
+    //take favor change the status of the favour to "in-progress"
+  });
+  socket.on('cancelFavour', function (postid) {
+    //take favor change the status of the favour to "active"
+  });
+  socket.on('doneFavour', function (postid, uid) {
+    //change the status of the favour to "done" and increase user done count by 1
+  });
+  socket.on('newAcc', function (uid) {
     //add user to the app's user db
   });
-  socket.on('getUser', function (user) {
+  socket.on('getUser', function (uid) {
     //send back json of user's info
   });
 });
