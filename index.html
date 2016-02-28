@@ -1,0 +1,15 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost:3000/');
+  socket.on('post favour', function (data) {
+    console.log(data);
+    if (data === "got the req") {
+      var favour = '{ "uid": "123" , "favour": "get coffee" , "fromWhere": "starbucks" , "starting": "13:30" , "ending": "14:30" , "meeting": "ICICS" }';
+      socket.emit('favour', favour);
+    }
+    else
+      console.log("post error");
+  });
+</script>
+
+
