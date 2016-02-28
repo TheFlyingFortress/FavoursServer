@@ -22,27 +22,30 @@ io.on('connection', function (socket) {
   socket.on('postFavour', function (favour) {
     var obj = JSON.parse(favour);
     var postid = obj.postid;
+    var uid = obj.uid;
     var favour = obj.favour;
     var fromWhere = obj.fromWhere;
     var starting = obj.starting;
     var ending = obj.ending;
     var meeting = obj.meeting;
     console.log(postid);
+    console.log(uid);
     console.log(favour);
     console.log(fromWhere);
     console.log(starting);
     console.log(ending);
     console.log(meeting);
   });
-  socket.on('getFavours', function (latlon) {
+  socket.on('getFavours', function () {
     //send back json of active favours
     console.log("error");
   });
-  socket.on('acceptFavour', function (postid) {
+  socket.on('acceptFavour', function (postid, uid) {
     //take favor change the status of the favour to "in-progress"
+    //update user's current active favours
     console.log("error");
   });
-  socket.on('cancelFavour', function (postid) {
+  socket.on('cancelFavour', function (postid, uid) {
     //take favor change the status of the favour to "active"
     console.log("error");
   });
@@ -54,8 +57,24 @@ io.on('connection', function (socket) {
     //add user to the app's user db
     console.log("error");
   });
+  socket.on('login', function (uid) {
+    //check if user is already signed up, if not then call newACC
+    console.log("error");
+  });
   socket.on('getUser', function (uid) {
     //send back json of user's info
+    console.log("error");
+  });
+  socket.on('userPraise', function (uid) {
+    //increment user ranking
+    console.log("error");
+  });
+  socket.on('userShame', function (uid) {
+    //decrement user ranking
+    console.log("error");
+  });
+  socket.on('getAcceptedFavours', function (uid) {
+    //see all user's accepted favours
     console.log("error");
   });
 });
