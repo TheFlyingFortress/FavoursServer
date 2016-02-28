@@ -2,6 +2,13 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var mongo = require('mongodb');
+var monk = require('monk');
+var uri = 'localhost:' + (process.env.PORT || 5000);
+var db = monk(uri);
+console.log('connecting to: ' + uri);
+var userDB = db.get('usercollection');
+console.log('UserDB' + userDB);
 
 
 app.set('port', (process.env.PORT || 5000));
