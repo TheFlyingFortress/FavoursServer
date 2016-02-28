@@ -1,18 +1,65 @@
-<script src="/socket.io/socket.io.js"></script>
-<script>
+<!DOCTYPE html>
 
-  var socket = io.connect('http://localhost:5000/');
-  // var socket = io.connect('https://favours.herokuapp.com/');
-  
-  socket.on('makeConnection', function (data) {
-    console.log(data);
-    if (data === "got the connection") {
+<html>
+
+  <head>
+
+    <script src="https://code.jquery.com/jquery-1.9.1.js" type='text/javascript'>
+
+    /* Adding a handler to the submit event */
+
+    $("#form1").submit(function(event) {
+
+      /*Stop the usual form submission event*/
+
+      event.preventDefault();
+
+      /* get the elements required for the post method*/
+
+      var $form = $(this);
+
+      var url = $form.attr('action');
+
+      /* post method */
+
       var favour = '{ "favourid": "123" , "uid": "1111111" , "favourTitle": "get coffee" , "fromWhere": "starbucks" , "starting": "13:30" , "ending": "14:30" , "meeting": "ICICS", "description": "filler description" }';
-      socket.emit('postFavour', favour);
-    }
-    else
-      console.log("post error");
-  });
-</script>
 
+      var posting = $.post( url, favour, function( data ) {
 
+        alert(data);
+
+      });
+
+    });
+
+    </script>
+
+  </head>
+
+  <body>
+
+    <form id="form1" action="/postFavour" title="" method="post">
+
+      <div>
+        <input id="favourid" input type="text" name="favourid" value="123" />
+        <input id="uid" input type="text" name="uid" value="1111111" />
+        <input id="favourTitle" input type="text" name="favourTitle" value="get coffee" />
+        <input id="fromWhere" input type="text" name="fromWhere" value="starbucks" />
+        <input id="starting" input type="text" name="starting" value="13:30" />
+        <input id="ending" input type="text" name="ending" value="14:30" />
+        <input id="meeting" input type="text" name="meeting" value="ICICS" />
+        <input id="description" input type="text" name="description" value="filler description" />
+
+      </div>
+
+      <div>
+
+        <input type="submit" id="submitButton"  name="submitButton" value="Submit">
+
+      </div>
+
+    </form>
+
+  </body>
+
+</html>
