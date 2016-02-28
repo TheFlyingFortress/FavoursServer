@@ -17,6 +17,13 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
+// Configure Users db methods
+var users = require('./users');
+app.get('/users/:id', users.findById);
+app.post('/users', users.create);
+app.delete('/users/:id', users.removeById);
+app.put('/users/:id', users.update);
+
 io.on('connection', function (socket) {
   socket.emit('makeConnection', "got the connection");
   socket.on('postFavour', function (favour) {
