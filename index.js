@@ -1,38 +1,49 @@
 var express = require('express');
+var path = require('path');
 var http = require('http');
 var app = express();
 
+//Parsing of the req
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Database
+var mongo = require('mongodb');
+var monk = require('monk');
+var uri = 'localhost:27017/FavourServer';
+console.log(uri)
+var db = monk(uri);
+
 app.set('port', (process.env.PORT || 5000));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
 
-// var mongo = require('mongodb');
-// var monk = require('monk');
-// var uri = 'localhost:' + (process.env.PORT || 5000);
-// var db = monk(uri);
-// console.log('connecting to: ' + uri);
-// var userDB = db.get('usercollection');
-// console.log('UserDB' + userDB);
-
-//for parsing the req
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+//var routes = require('./index');
+var users = require('./routes/users');
+//app.use('/', routes);
+app.use('/users', users);
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
+
 // Configure Users db methods
-var users = require('./users');
-app.get('/users/:id', users.findById);
-app.post('/users', users.create);
-app.delete('/users/:id', users.removeById);
-app.put('/users/:id', users.update);
+//var users = require('./users');
+// app.get('/users/:id', users.findById);
+// app.post('/users', users.create);
+// app.delete('/users/:id', users.removeById);
+// app.put('/users/:id', users.update);
 
 app.post('/postFavour', function(req, res) {
   var param = JSON.stringify(req.body);
